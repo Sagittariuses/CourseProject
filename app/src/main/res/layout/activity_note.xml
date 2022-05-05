@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".NoteActivity">
 
+
+
     <EditText
         android:id="@+id/ContentInput"
         android:layout_width="402dp"

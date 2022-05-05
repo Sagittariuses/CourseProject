@@ -6,12 +6,12 @@
         app:showAsAction="always"
         android:title="" />
     <item
-        android:id="@+id/undoArrow"
+        android:id="@+id/undo"
         android:icon="@drawable/ic_undo_arrow"
         app:showAsAction="always"
         android:title="" />
     <item
-        android:id="@+id/cancelArrow"
+        android:id="@+id/redo"
         android:icon="@drawable/ic_cancel_arrow"
         app:showAsAction="always"
         android:title="" />
