@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public   static  final  String KEY_ID ="_id";
     public   static  final  String KEY_TITLE ="title";
     public   static  final  String KEY_NOTE ="note";
+    /*public   static  final  String KEY_DATENT ="datent";*/
 
     public DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +26,9 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("create table " + TABLE_CONTACTS + "("
                 + KEY_ID + " integer primary key,"
                 + KEY_TITLE + " text,"
-                + KEY_NOTE + " text" + ")");
+                + KEY_NOTE + " text"
+                /*+ KEY_DATENT + " text"*/
+                + ")");
     }
 
     @Override

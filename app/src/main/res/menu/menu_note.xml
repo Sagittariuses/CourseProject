@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/back"
+        android:icon="@drawable/ic_back_arrow"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/undoArrow"
+        android:icon="@drawable/ic_undo_arrow"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/cancelArrow"
+        android:icon="@drawable/ic_cancel_arrow"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/done"
+        android:icon="@drawable/ic_done"
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/reminde"
+        android:title="Напоминание" />
+    <item
+        android:id="@+id/delete"
+        android:title="Удалить"/>
+</menu>
