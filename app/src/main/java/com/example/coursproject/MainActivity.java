@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         gridView = (GridLayout) findViewById(R.id.gridLayout);
         gridView.setOnClickListener(this::onClick);
+        gridView.setVerticalScrollBarEnabled(true);
 
 
         String queryload = "SELECT " + dbHelper.KEY_ID + ", "
@@ -150,8 +151,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 TitleTV.setLayoutParams(TitleParams);
                 NoteTV.setLayoutParams(Noteparams);
 
-                DateTV.setText(cursor2.getString(noteIndex));
-                DateTV.setTextSize(18);
+                if (cursor2.getString(noteIndex).length() > 30)
+                    DateTV.setText(cursor2.getString(noteIndex).substring(0,29) + "...");
+                else
+                    DateTV.setText(cursor2.getString(noteIndex));
+                DateTV.setTextSize(16);
 
                 NoteTV.setText(cursor2.getString(dateIndex));
                 NoteTV.setTextSize(18);
@@ -159,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 TitleTV.setText(cursor2.getString(titleIndex));
                 TitleTV.setTextSize(20);
                 TitleTV.setTextColor(Color.rgb(245, 126, 104));
+                if (cursor2.getString(titleIndex).length() > 30)
+                    TitleTV.setText(cursor2.getString(titleIndex).substring(0,29) + "...");
+                else
+                    TitleTV.setText(cursor2.getString(titleIndex));
 
                 cardView.addView(TitleTV);
                 cardView.addView(NoteTV);

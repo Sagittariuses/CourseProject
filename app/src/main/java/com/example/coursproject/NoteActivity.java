@@ -26,6 +26,7 @@ import android.text.TextWatcher;
 import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.ViewGroup;
+import android.widget.Scroller;
 import android.widget.TextView;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -78,6 +79,9 @@ public class NoteActivity extends AppCompatActivity {
 
         helperNote = new TextViewUndoRedo(NoteEt);
         helperTitle = new TextViewUndoRedo(TitleEt);
+
+        NoteEt.setScroller(new Scroller(getApplicationContext()));
+        NoteEt.setVerticalScrollBarEnabled(true);
 
 
     }
