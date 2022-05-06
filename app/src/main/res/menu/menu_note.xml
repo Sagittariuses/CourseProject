@@ -1,29 +1,35 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
     <item
         android:id="@+id/back"
         android:icon="@drawable/ic_back_arrow"
         app:showAsAction="always"
-        android:title="" />
+        android:title=""
+        tools:ignore="AlwaysShowAction" />
     <item
         android:id="@+id/undo"
-        android:icon="@drawable/ic_undo_arrow"
+        android:visible="false"
         app:showAsAction="always"
+        android:icon="@drawable/ic_undo_arrow"
         android:title="" />
     <item
         android:id="@+id/redo"
-        android:icon="@drawable/ic_cancel_arrow"
         app:showAsAction="always"
+        android:icon="@drawable/ic_cancel_arrow"
+        android:visible="false"
         android:title="" />
     <item
         android:id="@+id/done"
-        android:icon="@drawable/ic_done"
         app:showAsAction="always"
+        android:icon="@drawable/ic_done"
+        android:visible="false"
         android:title="" />
     <item
         android:id="@+id/reminde"
-        android:title="Напоминание" />
+        android:title="@string/remind" />
     <item
         android:id="@+id/delete"
-        android:title="Удалить"/>
+        android:title="@string/delete"/>
 </menu>

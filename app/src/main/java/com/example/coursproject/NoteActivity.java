@@ -1,37 +1,8 @@
 package com.example.coursproject;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuItemImpl;
-import androidx.appcompat.view.menu.MenuPresenter;
-import androidx.appcompat.view.menu.MenuView;
-import androidx.appcompat.widget.ResourceManagerInternal;
-import androidx.appcompat.widget.SearchView;
-import androidx.gridlayout.widget.GridLayout;
-
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.database.Cursor;
-import android.text.Editable;
-import android.text.Selection;
-import android.text.TextWatcher;
-import android.text.style.UnderlineSpan;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.Scroller;
-import android.widget.TextView;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,15 +10,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toolbar;
+import android.widget.Scroller;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -70,12 +39,100 @@ public class NoteActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
 
-        NoteEt = (EditText) findViewById(R.id.ContentInput);
-        NoteEt.setOnClickListener(this::onClick);
-        TitleEt = (EditText) findViewById(R.id.TitleInput);
-
-        TitleEt.setText(Memory.EditTitle);
+        NoteEt = findViewById(R.id.ContentInput);
         NoteEt.setText(Memory.EditNote);
+        NoteEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(NoteEt.getText().toString().length() == 0){
+                    chek = false;
+                    redoMI.setVisible(false);
+                    undoMI.setVisible(false);
+                    doneMI.setVisible(false);
+                    remindMI.setVisible(true);
+                    deleteMI.setVisible(true);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                chek=true;
+                redoMI.setVisible(true);
+                undoMI.setVisible(true);
+                doneMI.setVisible(true);
+                remindMI.setVisible(false);
+                deleteMI.setVisible(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(NoteEt.getText().toString().length() == 0){
+                    chek = false;
+                    redoMI.setVisible(false);
+                    undoMI.setVisible(false);
+                    doneMI.setVisible(false);
+                    remindMI.setVisible(true);
+                    deleteMI.setVisible(true);
+                }
+            }
+        });
+        NoteEt.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus) {
+                redoMI.setVisible(true);
+                undoMI.setVisible(true);
+                doneMI.setVisible(true);
+                remindMI.setVisible(false);
+                deleteMI.setVisible(false);
+            }
+        });
+
+        TitleEt = findViewById(R.id.TitleInput);
+        TitleEt.setText(Memory.EditTitle);
+        TitleEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(TitleEt.getText().toString().length() == 0){
+                    chek = false;
+                    redoMI.setVisible(false);
+                    undoMI.setVisible(false);
+                    doneMI.setVisible(false);
+                    remindMI.setVisible(true);
+                    deleteMI.setVisible(true);
+                }
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                chek = false;
+                redoMI.setVisible(true);
+                undoMI.setVisible(true);
+                doneMI.setVisible(true);
+                remindMI.setVisible(false);
+                deleteMI.setVisible(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(TitleEt.getText().toString().length() == 0){
+                    chek = false;
+                    redoMI.setVisible(false);
+                    undoMI.setVisible(false);
+                    doneMI.setVisible(false);
+                    remindMI.setVisible(true);
+                    deleteMI.setVisible(true);
+                }
+            }
+        });
+        TitleEt.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus) {
+                redoMI.setVisible(true);
+                undoMI.setVisible(true);
+                doneMI.setVisible(true);
+                remindMI.setVisible(false);
+                deleteMI.setVisible(false);
+            }
+        });
 
         helperNote = new TextViewUndoRedo(NoteEt);
         helperTitle = new TextViewUndoRedo(TitleEt);
@@ -103,15 +160,18 @@ public class NoteActivity extends AppCompatActivity {
         backMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
         return true;
     }
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         Date today = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat( "'Date: ' yyyy.MM.dd ' time: ' hh:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat( "yyyy.MM.dd");
         switch  (item.getItemId()){
             case R.id.done:
+                NoteEt.setFocusable(false);
+                TitleEt.setFocusable(false);
                 if(!Memory.EditChek){
                     String note = NoteEt.getText().toString();
                     String title = TitleEt.getText().toString();
@@ -120,45 +180,21 @@ public class NoteActivity extends AppCompatActivity {
                     contentValues.put(DBHelper.KEY_TITLE, title);
                     contentValues.put(DBHelper.KEY_CREATED_AT, date);
                     database.insert(DBHelper.TABLE_NOTES, null, contentValues);
-                    Log.d("mLog",  "Click: title = " + title + ", note = " + note + ", date  = " + date);
+                    Log.d("mLog",  "Added: title = " + title + ", note = " + note + ", date  = " + date);
                 } else
                 {
-                    String note = NoteEt.getText().toString();
-                    String title = TitleEt.getText().toString();
-                    String date = formatForDateNow.format(today);
-                    contentValues.put(DBHelper.KEY_NOTE, note);
-                    contentValues.put(DBHelper.KEY_TITLE, title);
-                    contentValues.put(DBHelper.KEY_CREATED_AT, date);
+                    String queryEditTitle = "UPDATE notes SET title='" + TitleEt.getText()
+                            + "', note='" + NoteEt.getText()
+                            + "', created_at='" + formatForDateNow.format(today)
+                            +"' WHERE _id="+ Memory.EditID;
+                    database.execSQL(queryEditTitle);
 
-                    String queryedit =
-                            "SELECT "
-                                    + dbHelper.KEY_ID + ", "
-                                    + dbHelper.KEY_TITLE + ", "
-                                    + dbHelper.KEY_NOTE + ", "
-                                    + dbHelper.KEY_CREATED_AT
-                                    + " FROM "
-                                    + dbHelper.TABLE_NOTES
-                                    + " WHERE "
-                                    + dbHelper.KEY_ID
-                                    + " = "
-                                    + (Memory.EditID);
-
-                    Cursor cursor = database.rawQuery(queryedit, null);
-
-                    int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                    int noteIndex = cursor.getColumnIndex(DBHelper.KEY_NOTE);
-                    int titleIndex = cursor.getColumnIndex(DBHelper.KEY_TITLE);
-                    int dateIndex = cursor.getColumnIndex(DBHelper.KEY_CREATED_AT);
-
-                    String[] values = new String[4];
-                    values[0] = cursor.getString(idIndex);
-                    values[1] = cursor.getString(titleIndex);
-                    values[2] = cursor.getString(noteIndex);
-                    values[3] = cursor.getString(dateIndex);
-
-                    database.update(DBHelper.TABLE_NOTES,contentValues,null,values );
                 }
-
+                redoMI.setVisible(false);
+                undoMI.setVisible(false);
+                doneMI.setVisible(false);
+                remindMI.setVisible(true);
+                deleteMI.setVisible(true);
                 return true;
 
             case R.id.back:
@@ -183,27 +219,15 @@ public class NoteActivity extends AppCompatActivity {
                 return true;
 
             case R.id.reminde:
+                NoteEt.setFocusable(false);
+                TitleEt.setFocusable(false);
                 return true;
 
             case R.id.delete:
-                String queryedit =
-                        "DELETE " + " FROM "
-                                + dbHelper.TABLE_NOTES
-                                + " WHERE "
-                                + dbHelper.KEY_ID
-                                + " = "
-                                + (Memory.EditID);
-                Cursor cursor = database.rawQuery(queryedit, null);
-                int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                int noteIndex = cursor.getColumnIndex(DBHelper.KEY_NOTE);
-                int titleIndex = cursor.getColumnIndex(DBHelper.KEY_TITLE);
-                int dateIndex = cursor.getColumnIndex(DBHelper.KEY_CREATED_AT);
-                String[] values = new String[4];
-                values[0] = cursor.getString(idIndex);
-                values[1] = cursor.getString(titleIndex);
-                values[2] = cursor.getString(noteIndex);
-                values[3] = cursor.getString(dateIndex);
-                database.delete(DBHelper.TABLE_NOTES,null, values);
+                String querydelete = "DELETE " + " FROM " + DBHelper.TABLE_NOTES + " WHERE " + DBHelper.KEY_ID + " = " + (Memory.EditID);
+                database.execSQL(querydelete);
+                String idGenerate = "UPDATE" + DBHelper.TABLE_NOTES + " SET  _id =  id - " + 1 + " WHERE _id " + " > " + Memory.EditID;
+                database.execSQL(idGenerate);
                 return true;
 
             default:
@@ -215,16 +239,5 @@ public class NoteActivity extends AppCompatActivity {
     }
 
 
-    public  void onClick (View v){
-        switch (v.getId()){
-            case R.id.ContentInput:
-                chek=true;
-                doneMI.setShowAsAction(0);
-                break;
-            case R.id.TitleInput:
-                chek = false;
-                doneMI.setShowAsAction(0);
-                break;
-        }
-    }
+
 }

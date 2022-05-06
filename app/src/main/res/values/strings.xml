@@ -1,8 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">DontForgetThis</string>
     <string name="AddNoteButton">+</string>
     <string name="EditText_Hint">Поиск заметок</string>
     <string name="SearchIcon">Search</string>
     <string name="TitleHint">Заголовок заметки</string>
-    <string name="ContentHint">Начните ввод...</string>
+    <string name="ContentHint" tools:ignore="TypographyEllipsis">Начните ввод...</string>
+    <string name="remind">Напоминание</string>
+    <string name="delete">Удалить</string>
 </resources>
