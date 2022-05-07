@@ -35,8 +35,6 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-
-
         dbHelper = new DBHelper(this);
 
         NoteEt = findViewById(R.id.ContentInput);
@@ -160,7 +158,7 @@ public class NoteActivity extends AppCompatActivity {
         backMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
         return true;
     }
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "WrongConstant"})
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -170,8 +168,6 @@ public class NoteActivity extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatForDateNow = new SimpleDateFormat( "yyyy.MM.dd");
         switch  (item.getItemId()){
             case R.id.done:
-                NoteEt.setFocusable(false);
-                TitleEt.setFocusable(false);
                 if(!Memory.EditChek){
                     String note = NoteEt.getText().toString();
                     String title = TitleEt.getText().toString();
@@ -180,6 +176,8 @@ public class NoteActivity extends AppCompatActivity {
                     contentValues.put(DBHelper.KEY_TITLE, title);
                     contentValues.put(DBHelper.KEY_CREATED_AT, date);
                     database.insert(DBHelper.TABLE_NOTES, null, contentValues);
+                    Memory.EditID = Memory.EditID + 1;
+                    Memory.EditChek = true;
                     Log.d("mLog",  "Added: title = " + title + ", note = " + note + ", date  = " + date);
                 } else
                 {

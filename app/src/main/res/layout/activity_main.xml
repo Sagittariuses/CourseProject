@@ -10,12 +10,13 @@
 
     <Button
         android:id="@+id/addNoteButton"
-        android:layout_width="75dp"
-        android:layout_height="90dp"
+        android:layout_width="67dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="60dp"
         android:backgroundTint="#F57E68"
         android:text="@string/AddNoteButton"
         android:textColor="@color/white"
-        android:textSize="50sp"
+        android:textSize="40sp"
         app:cornerRadius="1000dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,27 +63,31 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="330dp"
-        android:layout_height="match_parent"
+        android:layout_width="417dp"
+        android:layout_height="720dp"
         android:layout_marginStart="41dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="41dp"
         android:layout_marginBottom="10dp"
+        android:scrollbarThumbVertical="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
             android:id="@+id/LayoutForCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="80dp">
 
         </LinearLayout>
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

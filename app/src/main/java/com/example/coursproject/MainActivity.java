@@ -22,6 +22,8 @@ import androidx.cardview.widget.CardView;
 
 // multi-choise
 // https://startandroid.ru/ru/uroki/vse-uroki-spiskom/83-urok-43-odinochnyj-i-mnozhestvennyj-vybor-v-list.html
+// notify
+// https://www.youtube.com/watch?v=tyVaPHv-RGo
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
     Button btnAdd;
@@ -35,11 +37,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         dbHelper = new DBHelper(this);
         database = dbHelper.getWritableDatabase();
 
         linearLayout = findViewById(R.id.LayoutForCard);
         linearLayout.setVerticalScrollBarEnabled(true);
+
 
         btnAdd = findViewById(R.id.addNoteButton);
         btnAdd.setOnClickListener(this);
@@ -157,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                                     + ", title = " + cursor.getString(edittitleIndex)
                                                     + ", note = " + cursor.getString(editnoteIndex)
                                                     + ", date = " + cursor.getString(editcreated_atIndex));
-                                    Memory.EditID = cursor.getString(editidIndex);
+                                    Memory.EditID = cursor.getInt(editidIndex);
                                     Memory.EditTitle = cursor.getString(edittitleIndex);
                                     Memory.EditNote = cursor.getString(editnoteIndex);
 
@@ -182,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 linearLayout.removeAllViewsInLayout();
 
                 String queryfilter = "SELECT " + DBHelper.KEY_ID + ", "
-                        + DBHelper.KEY_TITLE + ", " + DBHelper.KEY_NOTE + ", " + DBHelper.KEY_CREATED_AT + " FROM " + DBHelper.TABLE_NOTES + " WHERE title='" + searchET.getText() + "'";
+                        + DBHelper.KEY_TITLE + ", " + DBHelper.KEY_NOTE + ", " + DBHelper.KEY_CREATED_AT + " FROM " + DBHelper.TABLE_NOTES + " WHERE title like'" + searchET.getText() + "%'";
                 @SuppressLint("Recycle")
                 Cursor cursor2 = database.rawQuery(queryfilter, null);
                 if (cursor2.moveToFirst()) {
@@ -202,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         );
-                        layoutparams.setMargins(10, 10, 0, 0);
+                        layoutparams.setMargins(10, 20, 0, 0);
 
                         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -284,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                                 + ", title = " + cursor.getString(edittitleIndex)
                                                 + ", note = " + cursor.getString(editnoteIndex)
                                                 + ", date = " + cursor.getString(editcreated_atIndex));
-                                Memory.EditID = cursor.getString(editidIndex);
+                                Memory.EditID = cursor.getInt(editidIndex);
                                 Memory.EditTitle = cursor.getString(edittitleIndex);
                                 Memory.EditNote = cursor.getString(editnoteIndex);
 
@@ -319,12 +323,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                 + ", note = " + cursor2.getString(noteIndex)
                                 + ", date = " + cursor2.getString(dateIndex));
                 CardView cardView = new CardView(this);
+                Memory.EditID = cursor2.getInt(idIndex);
 
                 LinearLayout.LayoutParams layoutparams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                 );
-                layoutparams.setMargins(10, 10, 0, 0);
+                layoutparams.setMargins(10, 30, 0, 10);
 
                 LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -406,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                         + ", title = " + cursor.getString(edittitleIndex)
                                         + ", note = " + cursor.getString(editnoteIndex)
                                         + ", date = " + cursor.getString(editcreated_atIndex));
-                        Memory.EditID = cursor.getString(editidIndex);
+                        Memory.EditID = cursor.getInt(editidIndex);
                         Memory.EditTitle = cursor.getString(edittitleIndex);
                         Memory.EditNote = cursor.getString(editnoteIndex);
 
@@ -421,6 +426,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         }
     }
+
+   /* public void createNotification () {
+        Intent myIntent = new Intent(this , NotifyService.class);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*60*24 , pendingIntent);
+    }*/
+
 
     @SuppressLint("NonConstantResourceId")
     @Override
