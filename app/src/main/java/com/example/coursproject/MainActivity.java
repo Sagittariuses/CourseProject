@@ -11,13 +11,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 // multi-choise
@@ -26,7 +27,7 @@ import androidx.cardview.widget.CardView;
 // https://www.youtube.com/watch?v=tyVaPHv-RGo
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
-    Button btnAdd;
+    FloatingActionButton btnAdd;
     EditText searchET;
     DBHelper dbHelper;
     LinearLayout linearLayout;
@@ -452,7 +453,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Memory.EditNote = "";
             Intent intent = new Intent(this, NoteActivity.class);
             startActivity(intent);
-            finish();
         }
     }
 }

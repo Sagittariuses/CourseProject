@@ -2,7 +2,6 @@ package com.example.coursproject;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class NoteActivity extends AppCompatActivity {
     EditText TitleEt;
     TextViewUndoRedo helperNote;
     TextViewUndoRedo helperTitle;
-    MenuItem doneMI, backMI, undoMI, redoMI, remindMI, deleteMI;
+    MenuItem doneMI, undoMI, redoMI, remindMI, deleteMI;
     boolean chek;
 
     @SuppressLint("WrongConstant")
@@ -39,6 +39,9 @@ public class NoteActivity extends AppCompatActivity {
 
         NoteEt = findViewById(R.id.ContentInput);
         NoteEt.setText(Memory.EditNote);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         NoteEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -144,7 +147,6 @@ public class NoteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_note, menu);
         doneMI = menu.findItem(R.id.done);
-        backMI = menu.findItem(R.id.back);
         undoMI = menu.findItem(R.id.undo);
         redoMI= menu.findItem(R.id.redo);
         remindMI = menu.findItem(R.id.reminde);
@@ -155,9 +157,15 @@ public class NoteActivity extends AppCompatActivity {
         deleteMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
         undoMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
         redoMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
-        backMI.setOnMenuItemClickListener(this::onOptionsItemSelected);
         return true;
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @SuppressLint({"NonConstantResourceId", "WrongConstant"})
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -195,13 +203,6 @@ public class NoteActivity extends AppCompatActivity {
                 deleteMI.setVisible(true);
                 return true;
 
-            case R.id.back:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                dbHelper.close();
-                finish();
-                return true;
-
             case R.id.redo:
                 if(chek)
                     helperNote.redo();
@@ -233,6 +234,8 @@ public class NoteActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+
+
 
     }
 
