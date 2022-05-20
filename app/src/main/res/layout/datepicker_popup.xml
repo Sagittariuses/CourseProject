@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardCornerRadius="40dp">
+
+    <DatePicker
+        android:theme="@style/DatePickerStyle"
+        android:id="@+id/datePickerRemind"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/border_item"
+        android:headerBackground="@drawable/border_headerdatepicker" />
+    <GridLayout
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp">
+        <Button
+            android:id="@+id/cancel_calendar"
+            android:text="отмена"
+            android:layout_height="35dp"
+            android:layout_marginEnd="50dp"
+            android:textColor="@color/white"
+            android:background="@drawable/border_button"
+            android:layout_gravity="left">
+        </Button>
+        <Button
+            android:id="@+id/ok_calendar"
+            android:text="ок"
+            android:layout_height="35dp"
+            android:textColor="@color/white"
+            android:backgroundTint="#F57E68"
+            android:background="@drawable/border_button"
+            android:layout_gravity="right">
+        </Button>
+    </GridLayout>
+</androidx.cardview.widget.CardView>

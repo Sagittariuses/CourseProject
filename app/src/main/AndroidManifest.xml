@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.coursproject">
     <uses-permission
         android:name = "android.permission.VIBRATE" />
@@ -12,11 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoursProject">
-        <service
-            android:name = ".NotifyService"
-            android:enabled = "true"
-            android:exported = "true" >
-        </service>
+        <receiver android:name=".TimeNotification"
+            tools:ignore="Instantiatable" />
         <activity
             android:name=".NoteActivity"
             android:exported="true"

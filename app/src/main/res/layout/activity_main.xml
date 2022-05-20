@@ -13,46 +13,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#F57E68"
+        android:foreground="@drawable/ic_add_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.872"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.926"
-        android:foreground="@drawable/ic_baseline_add_24"/>
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.SearchView
-        android:layout_width="match_parent"
+    <android.widget.SearchView
+        android:id="@+id/searchSV"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:defaultQueryHint="@string/EditText_Hint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"
+        android:queryBackground="@null"
         android:background="@drawable/border"
-        app:showDividers="none"
-        android:layout_margin="20dp"/>
-
-    <EditText
-        android:visibility="gone"
-        android:id="@+id/SearchInput"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:background="@drawable/border"
-        android:ems="10"
-        android:hint="@string/EditText_Hint"
-        android:inputType="textPersonName"
-        android:drawableStart="@drawable/ic_search"
-        android:minHeight="48dp"
-        android:drawablePadding="20dp"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/EditText_Hint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04"
-        tools:ignore="Autofill,RtlSymmetry,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -67,17 +48,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="SpeakableTextPresentCheck">
-
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/LayoutForCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="80dp">
-
-        </LinearLayout>
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </ScrollView>
 
 

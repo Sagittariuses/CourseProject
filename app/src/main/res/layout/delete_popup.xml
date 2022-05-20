@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/deleteLl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
+    android:background="@drawable/border_popup"
+    android:orientation="vertical"
+    android:padding="5dp"
+    >
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Удаление заметок"
+        android:layout_marginTop="20dp"
+        android:textColor="#F57E68"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:text="Удалить эту заметку?"
+        android:layout_marginTop="20dp"
+        android:textColor="#797979" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp">
+        <Button
+            android:id="@+id/cancel_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:layout_marginLeft="50dp"
+            android:backgroundTint="#636363"
+            android:text="Отмена"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/delete_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="#F57E68"
+            android:background="@drawable/border"
+            android:text="Удалить"
+            android:textColor="@color/white" />
+    </GridLayout>
+
+
+</LinearLayout>

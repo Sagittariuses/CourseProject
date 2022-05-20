@@ -13,9 +13,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/ic_splash_screen</item>
     </style>
+
     <style name="NoteTheme" parent="Theme.AppCompat.DayNight">
         <item name="colorPrimary">#F57E68</item>
         <item name="colorPrimaryVariant">#F57E68</item>
@@ -29,4 +31,16 @@
         <!-- Customize your theme here. -->
         <item name="title">" "</item>
     </style>
+    <style name="DatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">#F57E68</item>
+        <item name="colorPrimaryDark">#F57E68</item>
+        <item name="colorAccent">#F57E68</item>
+        <item name="android:calendarTextColor">@color/white</item>
+        <item name="android:dayOfWeekBackground">#F57E68</item>
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:minDate">01/01/2000</item>
+        <item name="android:yearListSelectorColor">#F57E68</item>
+        <item name="android:colorControlActivated">#F57E68</item>
+    </style>
+
 </resources>
