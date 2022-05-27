@@ -1,47 +1,24 @@
 package com.example.coursproject;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-// multi-choise
-// https://startandroid.ru/ru/uroki/vse-uroki-spiskom/83-urok-43-odinochnyj-i-mnozhestvennyj-vybor-v-list.html
-// notify
-// https://www.youtube.com/watch?v=tyVaPHv-RGo
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
     FloatingActionButton btnAdd;
@@ -49,9 +26,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     DBHelper dbHelper;
     SQLiteDatabase database;
     NoteAdapter adapter;
-    private List<Model> mModelList;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
 
     View item;
 
@@ -84,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                callSearch(query);
+                callSearch();
                 return true;
             }
 
@@ -107,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 return true;
             }
 
-            public void callSearch(String query) {
+            public void callSearch() {
 
             }
 
@@ -157,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             database.execSQL(querydelete);
             try {
                 String idGenerate = "UPDATE " + DBHelper.TABLE_NOTES + " SET  _id =  id - " + 1 + " WHERE _id " + " > " + Memory.EditID;
-                Cursor cursor = database.rawQuery(idGenerate, null);
+                @SuppressLint("Recycle") Cursor cursor = database.rawQuery(idGenerate, null);
                 if (cursor.moveToFirst()) {
                     int editidIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
                     if (editidIndex != 0){
@@ -194,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     public  void CreateRecycleView(Cursor cursor){
 
-        mModelList = new ArrayList<>();
+        List<Model> mModelList = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
@@ -212,11 +186,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 String TitleS;
                 String NoteS;
                 String DateS;
-                char a = 'a';
+                char a;
                 int checker = 0;
                 for (int i = 0; i < cursor.getString(noteIndex).length(); i++){
                     a = cursor.getString(noteIndex).charAt(i);
-                    Log.d("mLog", "Char: " + a);
                     if (a == '\n'){
                         checker=i;
                         break;

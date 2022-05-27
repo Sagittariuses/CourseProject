@@ -1,25 +1,15 @@
 package com.example.coursproject;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,31 +18,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.DialogFragment;
-import java.util.Calendar;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-
-import java.security.cert.CertPathBuilder;
 import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.time.MonthDay;
-import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.TimeZone;
 
 public class NoteActivity extends AppCompatActivity {
 
@@ -68,10 +44,6 @@ public class NoteActivity extends AppCompatActivity {
     Dialog dlgDelete, dlgRemind, datepicker;
 
     Calendar myCalendar;
-    private NotificationManager notificationManager;
-    private static final int NOTIFY_ID = 101;
-    private static final String CHANNEL_ID = "CHANNEL_ID";
-    boolean typinget1;
 
 
     @SuppressLint("WrongConstant")
@@ -224,14 +196,14 @@ public class NoteActivity extends AppCompatActivity {
                 return true;
 
             case R.id.redo:
-                if(TitleEt.hasFocus() == false)
+                if(!TitleEt.hasFocus())
                     helperNote.redo();
                 else
                     helperTitle.redo();
                 return true;
 
             case R.id.undo:
-                if(TitleEt.hasFocus() == false)
+                if(!TitleEt.hasFocus())
                     helperNote.undo();
                 else
                     helperTitle.undo();
@@ -253,10 +225,10 @@ public class NoteActivity extends AppCompatActivity {
                 btnSelectDate.setOnClickListener(this::onClickRemind);
 
 
-                ViewGroup.LayoutParams params = dlgRemind.getWindow().getAttributes();
+                WindowManager.LayoutParams params = dlgRemind.getWindow().getAttributes();
                 params.width = WindowManager.LayoutParams.MATCH_PARENT;
                 params.height = WindowManager.LayoutParams.MATCH_PARENT;
-                dlgRemind.getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+                dlgRemind.getWindow().setAttributes(params);
                 dlgRemind.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePicker = dlgRemind.findViewById(R.id.time_remind);
                 timePicker.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
@@ -275,10 +247,10 @@ public class NoteActivity extends AppCompatActivity {
                 btnDelete = (Button) dlgDelete.findViewById(R.id.delete_delete);
                 btnDelete.setOnClickListener(this::onClickDelete);
 
-                ViewGroup.LayoutParams paramsDelete = dlgDelete.getWindow().getAttributes();
+                WindowManager.LayoutParams paramsDelete = dlgDelete.getWindow().getAttributes();
                 paramsDelete.width = WindowManager.LayoutParams.MATCH_PARENT;
                 paramsDelete.height = WindowManager.LayoutParams.MATCH_PARENT;
-                dlgDelete.getWindow().setAttributes((android.view.WindowManager.LayoutParams) paramsDelete);
+                dlgDelete.getWindow().setAttributes(paramsDelete);
                 dlgDelete.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                 dlgDelete.show();
@@ -307,6 +279,7 @@ public class NoteActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("NonConstantResourceId")
     public void onClickDelete (View v){
         switch (v.getId()){
             case R.id.cancel_delete:
@@ -324,6 +297,7 @@ public class NoteActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("NonConstantResourceId")
     public  void onClickCalendar (View v){
         switch (v.getId()){
             case R.id.cancel_calendar:
@@ -340,6 +314,7 @@ public class NoteActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void onClickRemind(View v){
         switch (v.getId()){
             case R.id.cancel_remind:
@@ -354,12 +329,11 @@ public class NoteActivity extends AppCompatActivity {
 
 
                 if (Memory.Year == 0){
-                    Calendar calendar = Calendar.getInstance();
-                    Memory.calendar.set(calendar.YEAR,calendar.MONTH,calendar.DAY_OF_MONTH, Memory.Hour, Memory.Minute-2, 0);
+                    Memory.calendar.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, Memory.Hour, Memory.Minute-2, 0);
                 } else {
                     Memory.calendar.set(Memory.Year,Memory.Month,Memory.Day, Memory.Hour, Memory.Minute-2, 0);
                 }
-                Long milisek = Memory.calendar.getTimeInMillis();
+                long milisek = Memory.calendar.getTimeInMillis();
                 Log.d("mLog", "Miliseconds: " + milisek );
                 reminderNotification();
                 dlgRemind.dismiss();

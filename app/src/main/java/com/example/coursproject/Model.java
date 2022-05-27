@@ -15,7 +15,6 @@ public class Model {
         this.nData = nData;
         this.dData = dData;
         this.iData = iData;
-
     }
 
     public String getTitle() {

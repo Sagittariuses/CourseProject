@@ -3,18 +3,17 @@ package com.example.coursproject;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.Nullable;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public   static  final  int DATABASE_VERSION=1;
-    public   static  final  String DATABASE_NAME="notesDB";
-    public   static  final  String TABLE_NOTES="notes";
+    public static final int DATABASE_VERSION=1;
+    public static final String DATABASE_NAME="notesDB";
+    public static final String TABLE_NOTES="notes";
 
-    public   static  final  String KEY_ID ="_id";
-    public   static  final  String KEY_TITLE ="title";
-    public   static  final  String KEY_NOTE ="note";
+    public static final String KEY_ID ="_id";
+    public static final String KEY_TITLE ="title";
+    public static final String KEY_NOTE ="note";
     public static final String KEY_CREATED_AT = "created_at";
 
     public DBHelper(@Nullable Context context) {
@@ -41,5 +40,4 @@ public class DBHelper extends SQLiteOpenHelper {
 
         onCreate(sqLiteDatabase);
     }
-
 }

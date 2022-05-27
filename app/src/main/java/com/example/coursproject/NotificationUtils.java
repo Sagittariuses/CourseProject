@@ -9,10 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.RingtoneManager;
 import android.os.Build;
-import android.provider.Settings;
 
 import androidx.core.app.NotificationCompat;
 
@@ -24,7 +21,7 @@ public class NotificationUtils extends ContextWrapper
     String CHANNEL_ID = "notification channel";
     String TIMELINE_CHANNEL_NAME = "Timeline notification";
     private NotificationManager _notificationManager;
-    private Context _context;
+    private final Context _context;
 
     public NotificationUtils(Context base)
     {
@@ -37,7 +34,7 @@ public class NotificationUtils extends ContextWrapper
     public NotificationCompat.Builder setNotification(String title, String content)
     {
         Intent notificationIntent = new Intent(this, NoteActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         return new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -55,6 +52,7 @@ public class NotificationUtils extends ContextWrapper
 
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private void createChannel()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -78,7 +76,7 @@ public class NotificationUtils extends ContextWrapper
     public void setReminder(Calendar calendar)
     {
         Intent _intent = new Intent(_context, ReminderBroadcast.class);
-        PendingIntent _pendingIntent = PendingIntent.getBroadcast(_context, 0, _intent, 0);
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent _pendingIntent = PendingIntent.getBroadcast(_context, 0, _intent, 0);
 
         AlarmManager _alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
