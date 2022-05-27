@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                                 + DBHelper.KEY_CREATED_AT
                                 + " FROM "
                                 + DBHelper.TABLE_NOTES
-                                + " WHERE title like'"
-                                + newText + "%'";
+                                + " WHERE ((title like'%"
+                                + newText + "%') OR (note like '%" + newText + "%'))";
 
                 @SuppressLint("Recycle")
                 Cursor cursor = database.rawQuery(queryfilter, null);
@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             Intent in = new Intent(MainActivity.this, NoteActivity.class);
             startActivityForResult(in, 200);
         }
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + (position+1), Toast.LENGTH_SHORT).show();
     }
 
 
