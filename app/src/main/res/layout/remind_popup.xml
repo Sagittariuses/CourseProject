@@ -36,8 +36,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
+            android:textSize="16sp"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="20dp"
             android:backgroundTint="#F57E68"
             android:background="@drawable/border"
             android:text="Выбрать дату"
@@ -56,23 +57,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
-
+        <Button
+            android:layout_width="0dp"
+            android:backgroundTint="@null"
+            android:layout_height="100dp"
+            android:visibility="invisible"></Button>
         <Button
             android:id="@+id/cancel_remind"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="20dp"
             android:background="@drawable/border_button"
             android:text="Отмена"
             android:textColor="@color/white"
             android:textSize="16dp" />
         <Button
             android:id="@+id/done_remind"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="20dp"
             android:backgroundTint="#F57E68"
             android:background="@drawable/border_button"
             android:textSize="16dp"

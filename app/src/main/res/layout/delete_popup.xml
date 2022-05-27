@@ -31,24 +31,34 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp">
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp">
         <Button
+            android:layout_width="0dp"
+            android:backgroundTint="@null"
+            android:layout_height="100dp"
+            android:visibility="invisible"></Button>
+        <Button
+
             android:id="@+id/cancel_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/border"
-            android:layout_marginLeft="50dp"
             android:backgroundTint="#636363"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="10dp"
             android:text="Отмена"
             android:textColor="@color/white" />
 
         <Button
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="30dp"
             android:id="@+id/delete_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="20dp"
             android:backgroundTint="#F57E68"
             android:background="@drawable/border"
             android:text="Удалить"

@@ -213,16 +213,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 String TitleS;
                 String NoteS;
                 String DateS;
+                char a = 'a';
+                int checker = 0;
+                for (int i = 0; i < cursor.getString(noteIndex).length(); i++){
+                    a = cursor.getString(noteIndex).charAt(i);
+                    Log.d("mLog", "Char: " + a);
+                    if (a == '\n'){
+                        checker=i;
+                        break;
+                    }
+                }
 
-                if (cursor.getString(noteIndex).length() > 30)
-                    NoteS = cursor.getString(noteIndex).substring(0, 29) + "...";
-                else
+                if (checker != 0)
+                    NoteS = cursor.getString(noteIndex).substring(0, checker) + "...";
+                else if (cursor.getString(noteIndex).length() > 25){
+                    NoteS = cursor.getString(noteIndex).substring(0, 25) + "...";
+                } else {
                     NoteS = cursor.getString(noteIndex);
+                }
 
                 DateS = cursor.getString(dateIndex);
 
-                if (cursor.getString(titleIndex).length() > 30)
-                    TitleS = cursor.getString(titleIndex).substring(0, 20) + "...";
+                if (cursor.getString(titleIndex).length() > 25)
+                    TitleS = cursor.getString(titleIndex).substring(0, 25) + "...";
                 else
                     TitleS = cursor.getString(titleIndex);
                 mModelList.add(new Model(TitleS,NoteS, DateS, IdI));

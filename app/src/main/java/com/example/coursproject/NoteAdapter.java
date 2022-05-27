@@ -1,5 +1,4 @@
 package com.example.coursproject;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     private View item;
@@ -23,7 +21,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         item = itemView;
         mModelList = modelList;
     }
-
     // inflates the row layout from xml when needed
     @NonNull
     @Override
@@ -31,7 +28,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
         return new ViewHolder(view);
     }
-
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -39,10 +35,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         holder.TitleTV.setText(model.getTitle());
         holder.NoteTV.setText(model.getNote());
         holder.DateTV.setText(model.getDate());
-
-
-
-
     }
 
     // total number of rows
@@ -56,8 +48,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             return 0;
         }
     }
-
-
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView TitleTV;
@@ -80,16 +70,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
-
     Integer getItem(int position) {
         final Model model = mModelList.get(position);
         return model.getid();
     }
-
     void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
-
     public interface ItemClickListener {
         void onItemClick(View view, int position);
     }

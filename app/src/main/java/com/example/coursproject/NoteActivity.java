@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +62,7 @@ public class NoteActivity extends AppCompatActivity {
     TextViewUndoRedo helperNote;
     TextViewUndoRedo helperTitle;
     MenuItem doneMI, undoMI, redoMI, remindMI, deleteMI;
-
+    TimePicker timePicker;
 
 
     Dialog dlgDelete, dlgRemind, datepicker;
@@ -70,6 +71,7 @@ public class NoteActivity extends AppCompatActivity {
     private NotificationManager notificationManager;
     private static final int NOTIFY_ID = 101;
     private static final String CHANNEL_ID = "CHANNEL_ID";
+    boolean typinget1;
 
 
     @SuppressLint("WrongConstant")
@@ -237,7 +239,7 @@ public class NoteActivity extends AppCompatActivity {
 
             case R.id.reminde:
                 Button btnCancelRemind, btnRemind, btnSelectDate;
-                TimePicker timePicker;
+
 
                 dlgRemind.setContentView(R.layout.remind_popup);
 
@@ -249,19 +251,16 @@ public class NoteActivity extends AppCompatActivity {
 
                 btnSelectDate = (Button) dlgRemind.findViewById(R.id.select_date_remind);
                 btnSelectDate.setOnClickListener(this::onClickRemind);
-                try{
-                    timePicker = (TimePicker) dlgRemind.findViewById(R.id.time_remind);
-                    timePicker.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-                    timePicker.setIs24HourView(true);
-                } catch (Exception exception){
-                    Log.d("mLog", exception.toString());
-                }
+
 
                 ViewGroup.LayoutParams params = dlgRemind.getWindow().getAttributes();
                 params.width = WindowManager.LayoutParams.MATCH_PARENT;
                 params.height = WindowManager.LayoutParams.MATCH_PARENT;
                 dlgRemind.getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
                 dlgRemind.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePicker = dlgRemind.findViewById(R.id.time_remind);
+                timePicker.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+                timePicker.setIs24HourView(true);
                 dlgRemind.show();
                 return true;
 
@@ -307,12 +306,6 @@ public class NoteActivity extends AppCompatActivity {
         deleteMI.setVisible(false);
     }
 
-    public static void createChannelIfNeeded(NotificationManager manager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(notificationChannel);
-        }
-    }
 
     public void onClickDelete (View v){
         switch (v.getId()){
@@ -331,8 +324,23 @@ public class NoteActivity extends AppCompatActivity {
 
     }
 
+    public  void onClickCalendar (View v){
+        switch (v.getId()){
+            case R.id.cancel_calendar:
+                datepicker.dismiss();
+                break;
+            case R.id.ok_calendar:
+                DatePicker datePickerCalendar = datepicker.findViewById(R.id.datePickerRemind);
+                Memory.Year = datePickerCalendar.getYear();
+                Memory.Month = datePickerCalendar.getMonth();
+                Memory.Day = datePickerCalendar.getDayOfMonth();
+                datepicker.dismiss();
+                break;
+
+        }
+    }
+
     public void onClickRemind(View v){
-        /*SQLiteDatabase database = dbHelper.getWritableDatabase();*/
         switch (v.getId()){
             case R.id.cancel_remind:
                 dlgRemind.dismiss();
@@ -340,23 +348,21 @@ public class NoteActivity extends AppCompatActivity {
             case R.id.done_remind:
                 NoteEt.setFocusable(false);
                 TitleEt.setFocusable(false);
-                notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-                NotificationCompat.Builder notificationBuilder =
-                        new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                                .setAutoCancel(false)
-                                .setSmallIcon(R.drawable.ic_splash_screen)
-                                .setWhen(System.currentTimeMillis())
-                                .setContentIntent(pendingIntent)
-                                .setContentTitle("Напоминание: " + Memory.EditTitle)
-                                .setContentText(Memory.EditNote)
-                                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                .setAutoCancel(true);
-                createChannelIfNeeded(notificationManager);
-                notificationManager.notify(NOTIFY_ID, notificationBuilder.build());
+                Memory.Hour = timePicker.getHour();
+                Memory.Minute = timePicker.getMinute();
+
+
+                if (Memory.Year == 0){
+                    Calendar calendar = Calendar.getInstance();
+                    Memory.calendar.set(calendar.YEAR,calendar.MONTH,calendar.DAY_OF_MONTH, Memory.Hour, Memory.Minute-2, 0);
+                } else {
+                    Memory.calendar.set(Memory.Year,Memory.Month,Memory.Day, Memory.Hour, Memory.Minute-2, 0);
+                }
+                Long milisek = Memory.calendar.getTimeInMillis();
+                Log.d("mLog", "Miliseconds: " + milisek );
+                reminderNotification();
+                dlgRemind.dismiss();
                 break;
             case R.id.select_date_remind:
                 Locale locale = getResources().getConfiguration().locale;
@@ -367,13 +373,25 @@ public class NoteActivity extends AppCompatActivity {
                 params.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 datepicker.getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
                 datepicker.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                Button okdatepicker = datepicker.findViewById(R.id.ok_calendar);
+                okdatepicker.setOnClickListener(this::onClickCalendar);
+                Button canceldatepicker = datepicker.findViewById(R.id.cancel_calendar);
+                canceldatepicker.setOnClickListener(this::onClickCalendar);
+
                 datepicker.show();
-                DatePicker datePicker = datepicker.findViewById(R.id.datePickerRemind);
                 break;
 
 
         }
 
+    }
+    public void reminderNotification()
+    {
+        Memory.NoteNotify = Memory.EditNote;
+        Memory.TitleNotify = Memory.EditTitle;
+        NotificationUtils _notificationUtils = new NotificationUtils(this);
+        _notificationUtils.setReminder(Memory.calendar);
     }
 
 }
